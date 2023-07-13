@@ -1,3 +1,5 @@
+@use "base/base";
+
 *{
     margin: 0;
     padding: 0;
@@ -7,4 +9,15 @@
 
 h1 {
     color: green;
+}
+
+ul li {
+    display: inline-block;
+}
+
+ul li a {
+    display: block;
+    padding: .5em;
+    text-decoration: none;
+    max-width: 150px;
 }

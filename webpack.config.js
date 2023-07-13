@@ -2,6 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "development", // "production"
@@ -25,20 +26,28 @@ module.exports = {
                 test: /\.js$/,           // 拡張子が.jsで終わるファイルに対して
                 exclude: /node_modules/, // node_modulesディレクトリ以下のjsコンパイルは避ける
                 use: [
-                    { 
+                    {
                         loader: "babel-loader",
                         options: {
                             presets: [
-                                [ "@babel/preset-env", { "targets" : "> 0.25%, not dead" } ]
+                                ["@babel/preset-env", { "targets": "> 0.25%, not dead" }]
                             ],
                         }
                     },
                 ],
 
             },
+            //html
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader",
+                    },
+                ],
+            },
             // css, sass
             {
-               
                 test: /\.(css|sass|scss)$/,
                 use: [
                     {
@@ -60,24 +69,9 @@ module.exports = {
                 test: /\.(jpg|png|gif|svg)$/,
                 type: "asset/resource",     // souceではなく、resouce
                 loader: "image-webpack-loader",
-                generator: {             
+                generator: {
                     filename: "images/[hash][ext]",  //.[ext]とはしない
                 }
-            },
-            //pug
-            {
-                test: /\.pug$/,
-                use: [
-                    {
-                        loader: "html-loader",
-                    },
-                    {
-                        loader: "pug-html-loader",
-                        options: {
-                            pretty: true,
-                        }
-                    },
-                ],
             },
         ],
     },
@@ -89,10 +83,16 @@ module.exports = {
             template: "./src/templates/index.html",
             filename: "index.html",
         }),
-        // new HtmlWebpackPlugin({
-        //     template: "./src/templates/access.html",
-        //     filename: "access.html",
-        // }),
+        new HtmlWebpackPlugin({
+            template: "./src/templates/access.html",
+            filename: "access/index.html",
+        }),
         new CleanWebpackPlugin(),
+        // 静的フォルダのdistへのコピー
+        new CopyPlugin({
+            patterns: [
+              { from: "./src/pdf", to: "pdf" },
+            ],
+          }),
     ],
 }
