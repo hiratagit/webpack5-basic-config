@@ -73,6 +73,14 @@ module.exports = {
                     filename: "images/[hash][ext]",  //.[ext]とはしない
                 }
             },
+            //Shader
+            {
+                test: /\.(glsl|vs|fs|vert|frag)$/,
+                type: "asset/source",
+                generator: {
+                    filename: "scripts/shaders/[hash][ext]",
+                },
+            },
         ],
     },
     plugins: [
