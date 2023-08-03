@@ -10,6 +10,8 @@ npm i -D image-webpack-loader
 npm i -D clean-webpack-plugin  
 npm i -D copy-webpack-plugin  
 
+npm i -D glslify-loader
+
 ## Pugを使用する場合
 npm i -D pug-html-loader  
  

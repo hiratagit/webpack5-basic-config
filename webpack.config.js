@@ -74,12 +74,24 @@ module.exports = {
                 }
             },
             //Shader
+            // {
+            //     test: /\.(glsl|vs|fs|vert|frag)$/,
+            //     type: "asset/source",
+            //     generator: {
+            //         filename: "scripts/shaders/[hash][ext]",
+            //     },
+            // },
             {
                 test: /\.(glsl|vs|fs|vert|frag)$/,
                 type: "asset/source",
                 generator: {
                     filename: "scripts/shaders/[hash][ext]",
                 },
+                use: [   //use: ["raw-loader"]  以前はraw-loaderを使っていた
+                    {
+                      loader: 'glslify-loader',  // shader内でglslifyを使えるようにする
+                    },
+                ],
             },
         ],
     },
@@ -98,7 +110,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         // 静的フォルダのdistへのコピー
         new CopyPlugin({
-            patterns: [
+            patterns: [  // pdfファイルが存在しないとエラーになる？
               { from: "./src/pdf", to: "pdf" },
             ],
           }),
